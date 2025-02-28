@@ -1,6 +1,6 @@
 {
   "name": "@manzar-hassan/authflow",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "An authentication package for react or next js",
   "author": "blade05",
   "license": "MIT",
@@ -20,7 +20,8 @@
   },
   "scripts": {
     "clean": "npx rimraf dist",
-    "build": "npm run clean && tsup && npm pack"
+    "build": "npm run clean && tsup && npm pack",
+    "release": "npm run clean && tsup && release-it"
   },
   "devDependencies": {
     "@types/js-cookie": "^3.0.6",
