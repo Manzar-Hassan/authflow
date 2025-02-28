@@ -1,0 +1,5 @@
+node_modules/
+package-lock.json
+.npmrc
+dist/
+manzar-hassan-authflow-1.0.0.tgz
