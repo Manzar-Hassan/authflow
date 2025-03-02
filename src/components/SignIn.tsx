@@ -4,14 +4,30 @@ import { ChangeEvent, useState } from "react";
 import useAuth from "../hooks/useAuth";
 import GoogleLogo from "../svgs/GoogleLogo";
 import Spinner from "./Spinner";
+import { SignInProps } from "../types";
 
 interface FormState {
   username: string;
   password: string;
 }
 
-const SignIn = () => {
-  const auth = useAuth();
+interface SignInComponentProps extends SignInProps {
+  onNavigate?: (path: string) => void;
+  signUpPageUrl?: string;
+}
+
+const SignIn = ({
+  onNavigate,
+  signUpPageUrl = "/signup",
+  onSuccess,
+  onError,
+  className,
+}: SignInComponentProps) => {
+  const auth = useAuth({
+    navigation: {
+      navigate: onNavigate,
+    },
+  });
 
   const [form, setForm] = useState<FormState>({
     username: "",
@@ -25,12 +41,32 @@ const SignIn = () => {
     }));
   };
 
-  const handleSignIn = () => {
-    auth.signIn(form.username, form.password);
+  const handleSignIn = async () => {
+    try {
+      if (!form.username || !form.password) {
+        onError?.({ message: "Username and password are required" });
+        return;
+      }
+
+      const data = await auth.signIn(form.username, form.password);
+
+      console.log("data", data)
+
+      onSuccess?.({ success: true });
+    } catch (error: any) {
+      const errorMessage =
+        error.message || "An unexpected error occurred during sign in";
+      onError?.({ message: errorMessage });
+      console.error("Sign-in error:", error);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+    <div
+      className={`min-h-screen bg-gray-100 text-gray-900 flex justify-center ${
+        className || ""
+      }`}
+    >
       <div className="max-w-screen-xl m-0 sm:m-10 bg-gray-200 shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
           <div className="flex flex-col items-center">
@@ -58,6 +94,7 @@ const SignIn = () => {
                   value={form.username}
                   onChange={handleChange}
                 />
+
                 <input
                   className="w-full px-8 py-4 rounded-lg font-medium bg-gray-100 border border-gray-200 placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
                   type="password"
@@ -66,9 +103,10 @@ const SignIn = () => {
                   value={form.password}
                   onChange={handleChange}
                 />
+
                 <button
                   disabled={auth.isLoading}
-                  onClick={() => handleSignIn()}
+                  onClick={handleSignIn}
                   className={`mt-5 tracking-wide font-semibold w-full py-4 rounded-lg transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none
                     ${
                       auth.isLoading
@@ -94,7 +132,6 @@ const SignIn = () => {
                       />
                     </svg>
                   )}
-
                   <span className="ml-3">Sign In</span>
                 </button>
               </div>
@@ -103,7 +140,7 @@ const SignIn = () => {
                 <p className="text-gray-600 text-sm">
                   Don't have an account?{" "}
                   <a
-                    href="/signup"
+                    href={signUpPageUrl}
                     className="text-gray-900 font-semibold hover:text-blue-700"
                   >
                     &nbsp;Sign up
@@ -113,7 +150,7 @@ const SignIn = () => {
 
               <div className="my-12 border-b border-gray-800 text-center">
                 <div className="leading-none px-2 inline-block text-sm text-gray-800 tracking-wide font-medium bg-gray-200 transform translate-y-1/2">
-                  Or sign up with Google
+                  Or sign in with Google
                 </div>
               </div>
 

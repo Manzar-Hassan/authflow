@@ -1,9 +1,9 @@
 "use client";
 
-import GoogleLogo from "../svgs/GoogleLogo";
+import { ChangeEvent, useState } from "react";
 import useAuth from "../hooks/useAuth";
+import GoogleLogo from "../svgs/GoogleLogo";
 import Spinner from "./Spinner";
-import { useState, ChangeEvent } from "react";
 
 interface FormState {
   username: string;
@@ -11,8 +11,26 @@ interface FormState {
   password: string;
 }
 
-const SignUp = () => {
-  const auth = useAuth();
+interface SignUpProps$1 {
+  onSuccess?: (response: { success: boolean }) => void;
+  onError?: (error: any) => void;
+  onNavigate?: (path: string) => void;
+  homePageUrl?: string;
+  className?: string;
+}
+
+const SignUp = ({
+  onSuccess,
+  onError,
+  onNavigate,
+  className,
+  homePageUrl = "/"
+}: SignUpProps$1) => {
+  const auth = useAuth({
+    navigation: {
+      navigate: onNavigate
+    }
+  });
 
   const [form, setForm] = useState<FormState>({
     username: "",
@@ -27,12 +45,17 @@ const SignUp = () => {
     }));
   };
 
-  const handleSignUp = () => {
-    auth.signUp(form.username, form.email, form.password);
+  const handleSignUp = async () => {
+    try {
+      await auth.signUp(form.username, form.email, form.password);
+      onSuccess?.({ success: true });
+    } catch (error) {
+      onError?.(error);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 text-gray-900 flex justify-center">
+    <div className={`min-h-screen bg-gray-100 text-gray-900 flex justify-center ${className || ''}`}>
       <div className="max-w-screen-xl m-0 sm:m-10 bg-gray-200 shadow sm:rounded-lg flex justify-center flex-1">
         <div className="lg:w-1/2 xl:w-5/12 p-6 sm:p-12">
           <div className="flex flex-col items-center">
@@ -104,7 +127,6 @@ const SignUp = () => {
                       />
                     </svg>
                   )}
-
                   <span className="ml-3">Sign Up</span>
                 </button>
               </div>
@@ -113,7 +135,7 @@ const SignUp = () => {
                 <p className="text-gray-600 text-sm">
                   Already have an account?
                   <a
-                    href="/signin"
+                    href={homePageUrl}
                     className="text-gray-900 font-semibold hover:text-blue-700"
                   >
                     &nbsp;Sign in

@@ -1,11 +1,7 @@
-"use client";
+import React  from 'react';
+import { CardProps } from '../types';
 
-interface CardProps {
-  title: string;
-  description: string;
-}
-
-const Card = ({title, description}: CardProps) => {
+const Card: React.FC<CardProps> = ({ title, description }) => {
   return (
     <div className="h-screen w-screen flex justify-center items-center">
       <div className="max-w-sm mx-auto bg-white shadow-lg rounded-2xl border border-gray-200 p-6">
