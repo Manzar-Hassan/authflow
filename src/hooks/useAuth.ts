@@ -4,7 +4,7 @@ import { successToast, errorToast } from '../components/Toasts';
 import AuthService from '../services/authService';
 import { AuthState, AuthAction, Navigation } from '../types';
 
-const authService = new AuthService(process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000');
+const authService = new AuthService("http://localhost:8000");
 
 const initialState: AuthState = {
   isAuthenticated: !!Cookies.get('access_token'),
@@ -14,7 +14,7 @@ const initialState: AuthState = {
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
-    case 'SET_LOADING':
+    case "SET_LOADING":
       return { ...state, isLoading: action.payload };
     case 'SIGNIN_SUCCESS':
       return { ...state, isAuthenticated: true };
@@ -23,7 +23,7 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
     default:
       return state;
   }
-}
+};
 
 const useAuth = ({ navigation }: { navigation: Navigation }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
@@ -73,7 +73,7 @@ const useAuth = ({ navigation }: { navigation: Navigation }) => {
     dispatch({ type: 'SIGNOUT' });
     successToast('Signed out successfully');
     navigation.navigate?.('/signin');
-    
+
   }, [navigation]);
 
   return {

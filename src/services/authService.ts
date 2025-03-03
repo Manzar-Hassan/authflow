@@ -17,9 +17,9 @@ class AuthService {
         body: JSON.stringify({ username, password }),
       });
 
-      const data: ApiResponse<AuthTokens> = await response.json();
+      console.log("data", response)
 
-      console.log("data", data)
+      const data: ApiResponse<AuthTokens> = await response.json();
 
       if (!response.ok) {
         throw new Error(data.message || 'Failed to sign in');
@@ -42,6 +42,8 @@ class AuthService {
       });
 
       const data: ApiResponse<SignUpResponse> = await response.json();
+
+      console.log("data", data)
 
       if (!response.ok) {
         throw new Error(data.message || 'Failed to sign up');
