@@ -4,7 +4,7 @@ import { successToast, errorToast } from '../components/Toasts';
 import AuthService from '../services/authService';
 import { AuthState, AuthAction, Navigation } from '../types';
 
-const authService = new AuthService("http://localhost:8000");
+const authService = new AuthService("https://authflow-tw70.onrender.com");
 
 const initialState: AuthState = {
   isAuthenticated: !!Cookies.get('access_token'),
