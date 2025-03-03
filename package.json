@@ -1,6 +1,6 @@
 {
   "name": "@manzar-hassan/authflow",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "An authentication package for react or next js",
   "author": "blade05",
   "license": "MIT",
