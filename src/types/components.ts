@@ -1,12 +1,4 @@
-import { ReactNode } from 'react';
 import { AuthResponse } from './auth';
-
-export interface CardProps {
-  title?: string;
-  description?: string;
-  children?: ReactNode;
-  className?: string;
-}
 
 export interface SignInProps {
   onSuccess?: (response: AuthResponse) => void;

@@ -7,7 +7,7 @@ export const successToast = (message: string) => {
   toast.custom(
     <div
       id="toast-message-cta"
-      className="w-full max-w-xs p-4 text-gray-200 bg-green-50 rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-400 border-l-4 border-green-500 bg-opacity-75"
+      className="w-full max-w-xs p-4 text-gray-200 bg-green-50 rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-400 border-l-4 border-green-500"
       role="alert"
     >
       <div className="flex">
@@ -33,7 +33,7 @@ export const errorToast = (message: string) => {
   toast.custom(
     <div
       id="toast-message-cta"
-      className="w-full max-w-xs p-4 text-gray-200 bg-red-50 rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-400 border-l-4 border-red-500 bg-opacity-75"
+      className="w-full max-w-xs p-4 text-gray-200 bg-red-50 rounded-lg shadow-sm dark:bg-gray-800 dark:text-gray-400 border-l-4 border-red-500"
       role="alert"
     >
       <div className="flex">

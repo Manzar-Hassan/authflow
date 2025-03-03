@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface AuthUser {
   id?: string | number;
   email?: string;
@@ -23,7 +25,6 @@ export interface AuthConfig {
   tokenKey?: string;
 }
 
-// Add these new type definitions
 export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
@@ -42,4 +43,12 @@ export interface Navigation {
 export interface AuthResult {
   status: 'success' | 'error';
   message?: string;
+}
+
+export interface CardProps {
+  title?: string;
+  description?: string;
+  children?: ReactNode;
+  className?: string;
+  onNavigate?: (path: string) => void;
 }

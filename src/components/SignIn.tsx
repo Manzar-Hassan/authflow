@@ -25,7 +25,7 @@ const SignIn = ({
 }: SignInComponentProps) => {
   const auth = useAuth({
     navigation: {
-      navigate: onNavigate,
+      navigate: onNavigate || (() => {}),
     },
   });
 
@@ -43,21 +43,10 @@ const SignIn = ({
 
   const handleSignIn = async () => {
     try {
-      if (!form.username || !form.password) {
-        onError?.({ message: "Username and password are required" });
-        return;
-      }
-
-      const data = await auth.signIn(form.username, form.password);
-
-      console.log("data", data)
-
+      await auth.signIn(form.username, form.password);
       onSuccess?.({ success: true });
-    } catch (error: any) {
-      const errorMessage =
-        error.message || "An unexpected error occurred during sign in";
-      onError?.({ message: errorMessage });
-      console.error("Sign-in error:", error);
+    } catch (error) {
+      onError?.(error);
     }
   };
 
